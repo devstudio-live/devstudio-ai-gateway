@@ -53,28 +53,17 @@ class DevstudioAiGateway < Formula
   end
 
   service do
-    # Feature-flagged rollout: while the Rust binary ships alongside the
-    # Go reference (devstudio-proxy) for one release, the binary refuses
-    # to start unless DEVSTUDIO_AI_GATEWAY_ROLLOUT is set to a truthy
-    # value. Setting it here means `brew services start
-    # devstudio-ai-gateway` keeps working out of the box; manual
-    # `devstudio-ai-gateway` invocations need to opt in explicitly. The
-    # CLI gate is removed once two consecutive parity runs land green
-    # against the Go reference and the rollout flips default-on.
     run [opt_bin/"devstudio-ai-gateway"]
-    environment_variables DEVSTUDIO_AI_GATEWAY_ROLLOUT: "1"
     keep_alive true
     log_path       var/"log/devstudio-ai-gateway.log"
     error_log_path var/"log/devstudio-ai-gateway.log"
   end
 
   test do
-    with_env("DEVSTUDIO_AI_GATEWAY_ROLLOUT" => "1") do
-      pid = fork { exec bin/"devstudio-ai-gateway" }
-      sleep 1
-      assert_match "ok", shell_output("curl -s http://localhost:7700/health")
-    ensure
-      Process.kill("TERM", pid) if pid
-    end
+    pid = fork { exec bin/"devstudio-ai-gateway" }
+    sleep 1
+    assert_match "ok", shell_output("curl -s http://localhost:7700/health")
+  ensure
+    Process.kill("TERM", pid) if pid
   end
 end
