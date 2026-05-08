@@ -35,19 +35,38 @@ class DevstudioAiGateway < Formula
   end
 
   def post_install
-    # The bare-bones binary does not yet read a config file. The stub below
-    # establishes the location that future releases will consume so users who
-    # edit it across upgrades won't be surprised when knobs land. Mirrors the
-    # `unless conf_file.exist?` guard the devstudio-proxy formula uses.
+    # The binary reads this file at startup (see `src/config.rs` upstream).
+    # We only seed the file when it doesn't exist so a user's edits survive
+    # `brew upgrade`. Mirrors the `unless conf_file.exist?` guard the
+    # devstudio-proxy formula uses.
     conf_file = etc/"devstudio-ai-gateway.conf"
     unless conf_file.exist?
       conf_file.write <<~EOS
         # devstudio-ai-gateway configuration
-        # No tunables yet — bare-bones scaffolding. Future releases will
-        # consume options from this file.
+        # Precedence (low → high): this file → DEVGATEWAY_* env vars → CLI flags.
+        # Restart the service to apply changes: `brew services restart devstudio-ai-gateway`.
 
-        # Port to listen on (default: 7700)
+        # Port to listen on (default: 7700).
         PORT=7700
+
+        # Full bind address. Wins over PORT when set. Use 0.0.0.0:7700 to
+        # accept non-loopback connections.
+        # LISTEN=127.0.0.1:7700
+
+        # Disable the TLS byte-sniffing path (serve plain HTTP only).
+        # NO_TLS=false
+
+        # Forward-proxy request logging.
+        # LOG=false
+
+        # Log request headers (useful for debugging gateway routing).
+        # VERBOSE=false
+
+        # Fall back to a static MCP runtime if the upstream MCP refresh fails.
+        # MCP_FALLBACK=false
+
+        # MCP runtime refresh interval (e.g. 30s, 5m, 1h).
+        # MCP_REFRESH=30m
       EOS
     end
   end
