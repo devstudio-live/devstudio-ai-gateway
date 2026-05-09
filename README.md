@@ -17,7 +17,7 @@ brew install devstudio-live/devstudio-ai-gateway/devstudio-ai-gateway
 Or, equivalently:
 
 ```sh
-brew tap devstudio-live/devstudio-ai-gateway
+brew tap devstudio-live/devstudio-ai-gateway https://github.com/devstudio-live/devstudio-ai-gateway.git
 brew install devstudio-ai-gateway
 ```
 
@@ -48,7 +48,7 @@ If you're having trouble getting the latest version, uninstall completely and re
 ```sh
 brew uninstall devstudio-ai-gateway
 brew untap devstudio-live/devstudio-ai-gateway
-brew tap devstudio-live/devstudio-ai-gateway
+brew tap devstudio-live/devstudio-ai-gateway https://github.com/devstudio-live/devstudio-ai-gateway.git
 brew install devstudio-ai-gateway
 ```
 
