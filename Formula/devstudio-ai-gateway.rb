@@ -1,17 +1,17 @@
 class DevstudioAiGateway < Formula
   desc "DevStudio AI gateway — successor to devstudio-proxy"
   homepage "https://github.com/devstudio-live/devstudio-ai-gateway"
-  version "0.3.3"
+  version "0.4.1"
   license "MIT"
 
   on_macos do
     on_arm do
       url "https://github.com/devstudio-live/devstudio-ai-gateway/releases/download/v#{version}/devstudio-ai-gateway-darwin-arm64"
-      sha256 "7809b2050d64643d6843c974d14b6b6dec58af1c368da2fb7fbf0be085f8b815"
+      sha256 "81e56fde6942fbf3f7e6482654b7ae0924ad4ae2d5abf4dbc6f2f2237825fa16"
     end
     on_intel do
       url "https://github.com/devstudio-live/devstudio-ai-gateway/releases/download/v#{version}/devstudio-ai-gateway-darwin-amd64"
-      sha256 "cab3872ff4911d815c32833ed58def1b10c9ec3a2bb8c87e3744139573de9231"
+      sha256 "1f727a856c9016d4bdc6b281efcbb406686b17c0a88f47095440fc2e41bde03c"
     end
   end
 
